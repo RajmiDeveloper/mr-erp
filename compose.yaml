@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: docker.io/library/postgres:17
+    container_name: erp-postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: erp
+      POSTGRES_USER: erp_user
+      POSTGRES_PASSWORD: erp_password
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - erp_postgres_data:/var/lib/postgresql/data
+
+volumes:
+  erp_postgres_data:
