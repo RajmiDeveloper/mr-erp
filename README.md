@@ -12,5 +12,9 @@ docker compose up -d
 chmod +x mvnw                 //linux
 ./mvnw.cmd spring-boot:run
 
+
+// another terminal
+cd frontend
+npm run dev
 ```
 
