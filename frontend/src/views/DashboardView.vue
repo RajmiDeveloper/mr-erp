@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Card from 'primevue/card'
+import { RouterLink } from 'vue-router'
 </script>
 
 <template>
@@ -7,12 +8,14 @@ import Card from 'primevue/card'
     <h2>Panel principal</h2>
 
     <div class="cards">
-      <Card>
-        <template #title>Productos</template>
-        <template #content>
-          <p>Administración del catálogo de productos.</p>
-        </template>
-      </Card>
+      <RouterLink class="product-card" to="/products">
+        <Card>
+          <template #title>Productos</template>
+          <template #content>
+            <p>Administración del catálogo de productos.</p>
+          </template>
+        </Card>
+      </RouterLink>
 
       <Card>
         <template #title>Stock</template>
@@ -41,5 +44,10 @@ h2 {
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
   gap: 1rem;
   margin-top: 1.5rem;
+}
+
+.product-card {
+  color: inherit;
+  text-decoration: none;
 }
 </style>
