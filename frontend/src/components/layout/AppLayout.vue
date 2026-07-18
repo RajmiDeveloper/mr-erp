@@ -33,6 +33,7 @@ import AppSidebar from './AppSidebar.vue'
 .page-content {
   flex: 1;
   padding: 1.5rem;
-  background: var(--p-surface-50);
+  color: #111827;
+  background: #f3f4f6;
 }
 </style>

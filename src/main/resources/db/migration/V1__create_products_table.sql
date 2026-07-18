@@ -5,6 +5,7 @@ CREATE TABLE products (
     description VARCHAR(500),
     sale_price NUMERIC(15, 2) NOT NULL,
     cost_price NUMERIC(15, 2) NOT NULL,
+    current_stock INTEGER NOT NULL,
     active BOOLEAN NOT NULL DEFAULT TRUE,
     created_at TIMESTAMP WITH TIME ZONE NOT NULL,
     updated_at TIMESTAMP WITH TIME ZONE NOT NULL

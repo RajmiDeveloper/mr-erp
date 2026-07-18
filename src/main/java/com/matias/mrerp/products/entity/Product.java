@@ -45,6 +45,9 @@ public class Product {
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt = Instant.now();
 
+    @Column(name = "current_stock", nullable = false)
+    private int currentStock;
+
     public UUID getId() {
         return id;
     }
@@ -81,6 +84,10 @@ public class Product {
         return updatedAt;
     }
 
+    public int getCurrentStock() {
+        return currentStock;
+    }
+
     public void setCode(String code) {
         this.code = code;
     }
@@ -109,8 +116,12 @@ public class Product {
         this.createdAt = createdAt;
     }
 
-    public void setUpdatedAt(Instant updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setUpdatedAt() {
+        this.updatedAt = Instant.now();
+    }
+
+    public void setCurrentStock(int currentStock) {
+        this.currentStock = currentStock;
     }
 
     protected Product() {
@@ -123,5 +134,6 @@ public class Product {
         this.description = description;
         this.salePrice = salePrice;
         this.costPrice = costPrice;
+        this.currentStock = 1;
     }
 }
