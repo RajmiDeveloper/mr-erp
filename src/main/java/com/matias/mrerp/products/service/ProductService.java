@@ -34,16 +34,7 @@ public class ProductService {
         product.setUpdatedAt();
 
 
-        return new ProductResponse(
-                product.getId(),
-                product.getCode(),
-                product.getName(),
-                product.getDescription(),
-                product.getSalePrice(),
-                product.getCostPrice(),
-                product.getCurrentStock(),
-                product.isActive()
-        );
+        return toResponse(product);
     }
 
 
