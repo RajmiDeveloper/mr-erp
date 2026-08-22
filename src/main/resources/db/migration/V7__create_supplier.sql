@@ -1,0 +1,9 @@
+-- CREATE TABLE supplier(
+--    id UUID PRIMARY KEY,
+--    name VARCHAR(150) NOT NULL,
+--    price_rate NUMERIC(15, 2) NOT NULL,
+--    quantity INTEGER NOT NULL,
+--    discount FLOAT DEFAULT 0,
+--    created_at TIMESTAMP WITH TIME ZONE NOT NULL,
+--    updated_at TIMESTAMP WITH TIME ZONE NOT NULL
+-- );

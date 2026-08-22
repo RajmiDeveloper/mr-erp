@@ -1,4 +1,4 @@
-package com.matias.mrerp.stock_movement.entity;
+package com.matias.mrerp.stock_movements.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -20,8 +20,15 @@ public class StockMovement {
     @Column(nullable = false, updatable = false)
     private UUID id;
 
+    @Column(name = "operation_id",nullable = false, updatable = false)
+    private UUID operationId;
+
     @Column(name = "product_id",nullable = false, updatable = false)
-    private UUID produdtId;
+    private UUID productId;
+
+    public UUID getOperationId() {
+        return operationId;
+    }
 
     @Column(name = "cost_price",precision = 15, scale = 2, nullable = false)
     private BigDecimal costPrice;
@@ -32,8 +39,8 @@ public class StockMovement {
     @Column(nullable = false)
     private Integer quantity;
 
-    public UUID getProdudtId() {
-        return produdtId;
+    public UUID getProductId() {
+        return productId;
     }
 
     public BigDecimal getCostPrice() {
@@ -52,15 +59,16 @@ public class StockMovement {
         this.quantity = quantity;
     }
 
-    public void setProdudtId(UUID produdtId) {
-        this.produdtId = produdtId;
+    public void setProductId(UUID productId) {
+        this.productId = productId;
     }
 
     public void setCostPrice(BigDecimal costPrice) {
         this.costPrice = costPrice;
     }
-    public StockMovement(UUID produdtId, BigDecimal costPrice, Integer quantity){
-        this.produdtId = produdtId;
+    public StockMovement(UUID operationId, UUID productId, BigDecimal costPrice, Integer quantity){
+        this.operationId = operationId;
+        this.productId = productId;
         this.costPrice = costPrice;
         this.quantity = quantity;
     }

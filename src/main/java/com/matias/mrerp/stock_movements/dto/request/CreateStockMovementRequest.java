@@ -1,9 +1,7 @@
-package com.matias.mrerp.stock_movement.dto.request;
+package com.matias.mrerp.stock_movements.dto.request;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PositiveOrZero;
-import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
 import java.util.UUID;

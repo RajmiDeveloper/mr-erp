@@ -1,4 +1,4 @@
-package com.matias.mrerp.stock_movement.dto.response;
+package com.matias.mrerp.stock_movements.dto.response;
 
 import java.math.BigDecimal;
 import java.util.UUID;

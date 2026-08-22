@@ -1,14 +1,14 @@
 import { http } from './http'
 import type {
-  CreateStockMovementRequest,
-  StockMovementResponse,
+  CreateStockMovementOperationRequest,
+  StockMovementOperationResponse,
 } from '@/types/stockMovement'
 
-export function createStockMovement(
-  movement: CreateStockMovementRequest,
-): Promise<StockMovementResponse> {
-  return http<StockMovementResponse>('/api/stockMovement', {
+export function createStockMovementOperation(
+  operation: CreateStockMovementOperationRequest,
+): Promise<StockMovementOperationResponse> {
+  return http<StockMovementOperationResponse>('/api/stockMovement', {
     method: 'POST',
-    body: JSON.stringify(movement),
+    body: JSON.stringify(operation),
   })
 }

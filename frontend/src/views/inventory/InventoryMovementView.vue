@@ -3,7 +3,7 @@ import Button from 'primevue/button'
 import InputNumber from 'primevue/inputnumber'
 import { onMounted, ref } from 'vue'
 import { getProducts } from '@/api/productService'
-import { createStockMovement } from '@/api/stockMovementService'
+import { createStockMovementOperation } from '@/api/stockMovementService'
 import ProductSelector from '@/components/common/ProductSelector.vue'
 import type { ProductResponse } from '@/types/product'
 
@@ -46,6 +46,15 @@ function setProductDefaults(row: InventoryRow, product: ProductResponse | null):
   row.cost = product?.costPrice ?? null
 }
 
+function formatTotalCost(row: InventoryRow): string {
+  if (row.quantity === null || row.cost === null) return '—'
+
+  return new Intl.NumberFormat('es-AR', {
+    style: 'currency',
+    currency: 'ARS',
+  }).format(row.quantity * row.cost)
+}
+
 function createEmptyRow(): InventoryRow {
   const row = {
     id: nextRowId.value,
@@ -78,15 +87,14 @@ async function registerMovements(): Promise<void> {
   registering.value = true
 
   try {
-    for (const row of rows.value) {
-      if (row.productId === null || row.quantity === null || row.cost === null) continue
-
-      await createStockMovement({
-        productId: row.productId,
-        quantity: row.quantity,
-        costPrice: row.cost,
-      })
-    }
+    await createStockMovementOperation({
+      reason: '',
+      movements: rows.value.map((row) => ({
+        productId: row.productId as string,
+        quantity: row.quantity as number,
+        costPrice: row.cost as number,
+      })),
+    })
 
     rows.value = [createEmptyRow()]
     successMessage.value = 'Los movimientos se registraron correctamente.'
@@ -146,6 +154,7 @@ onMounted(loadProducts)
             <th scope="col">Producto</th>
             <th scope="col">Cantidad</th>
             <th scope="col">Costo unitario</th>
+            <th scope="col">Costo total</th>
             <th scope="col" class="actions-column">
               <span class="sr-only">Acciones</span>
             </th>
@@ -168,7 +177,8 @@ onMounted(loadProducts)
                 v-model="row.quantity"
                 :min-fraction-digits="0"
                 :max-fraction-digits="0"
-                class="number-input"
+                class="quantity-input-wrapper"
+                input-class="quantity-input"
               />
             </td>
             <td>
@@ -182,6 +192,7 @@ onMounted(loadProducts)
                 class="number-input"
               />
             </td>
+            <td class="total-cost">{{ formatTotalCost(row) }}</td>
             <td class="row-actions">
               <Button
                 icon="pi pi-trash"
@@ -298,7 +309,16 @@ td {
 }
 
 th:first-child {
-  width: 46%;
+  width: 38%;
+}
+
+th:nth-child(2) {
+  width: 8rem;
+}
+
+.total-cost {
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 .actions-column,
@@ -309,6 +329,14 @@ th:first-child {
 
 .number-input {
   width: 100%;
+}
+
+:deep(.quantity-input-wrapper) {
+  width: auto !important;
+}
+
+:deep(.quantity-input) {
+  width: 8rem !important;
 }
 
 .table-footer {
