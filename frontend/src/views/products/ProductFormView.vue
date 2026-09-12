@@ -2,14 +2,20 @@
 import Button from 'primevue/button'
 import InputNumber from 'primevue/inputnumber'
 import InputText from 'primevue/inputtext'
+import Select from 'primevue/select'
 import Textarea from 'primevue/textarea'
-import { reactive, ref } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { createProduct } from '@/api/productService'
+import { getProductCategories } from '@/api/productCategoryService'
+import type { ProductCategory } from '@/types/productCategory'
 
 const router = useRouter()
 const saving = ref(false)
 const errorMessage = ref('')
+const categories = ref<ProductCategory[]>([])
+const categoriesLoading = ref(false)
+const categoriesError = ref('')
 
 const product = reactive({
   code: '',
@@ -17,7 +23,21 @@ const product = reactive({
   description: '',
   costPrice: null as number | null,
   salePrice: null as number | null,
+  productCategoryId: null as string | null,
 })
+
+async function loadCategories(): Promise<void> {
+  categoriesLoading.value = true
+
+  try {
+    categories.value = await getProductCategories()
+  } catch (error) {
+    categoriesError.value =
+      error instanceof Error ? error.message : 'No se pudieron cargar las categorías.'
+  } finally {
+    categoriesLoading.value = false
+  }
+}
 
 async function saveProduct(): Promise<void> {
   errorMessage.value = ''
@@ -36,6 +56,7 @@ async function saveProduct(): Promise<void> {
       description: product.description.trim() || null,
       costPrice: product.costPrice,
       salePrice: product.salePrice,
+      productCategoryId: product.productCategoryId,
     })
     await router.push({ name: 'products' })
   } catch (error) {
@@ -45,6 +66,8 @@ async function saveProduct(): Promise<void> {
     saving.value = false
   }
 }
+
+onMounted(loadCategories)
 </script>
 
 <template>
@@ -64,6 +87,23 @@ async function saveProduct(): Promise<void> {
       <div class="field">
         <label for="name">Nombre</label>
         <InputText id="name" v-model="product.name" required maxlength="150" />
+      </div>
+
+      <div class="field">
+        <label for="product-category">Categoría</label>
+        <Select
+          input-id="product-category"
+          v-model="product.productCategoryId"
+          :options="categories"
+          option-label="name"
+          option-value="id"
+          placeholder="Sin categoría"
+          :loading="categoriesLoading"
+          show-clear
+        />
+        <small v-if="categoriesError" class="field-help error-text">
+          {{ categoriesError }}
+        </small>
       </div>
 
       <div class="field">

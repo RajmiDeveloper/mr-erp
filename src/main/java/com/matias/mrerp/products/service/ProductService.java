@@ -5,6 +5,8 @@ import com.matias.mrerp.products.dto.request.UpdateProductRequest;
 import com.matias.mrerp.products.dto.response.ProductResponse;
 import com.matias.mrerp.products.entity.Product;
 import com.matias.mrerp.products.repository.ProductRepository;
+import com.matias.mrerp.product_categories.entity.ProductCategory;
+import com.matias.mrerp.product_categories.repository.ProductCategoryRepository;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,9 +17,14 @@ import java.util.UUID;
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
+    private final ProductCategoryRepository productCategoryRepository;
 
-    public ProductService(ProductRepository productRepository){
+    public ProductService(
+            ProductRepository productRepository,
+            ProductCategoryRepository productCategoryRepository
+    ){
         this.productRepository = productRepository;
+        this.productCategoryRepository = productCategoryRepository;
     }
 
     @Transactional
@@ -31,6 +38,7 @@ public class ProductService {
         product.setSalePrice(request.salePrice());
         product.setCurrentStock(request.currentStock());
         product.setActive(request.active());
+        product.setProductCategory(findCategory(request.productCategoryId()));
         product.setUpdatedAt();
 
 
@@ -57,6 +65,7 @@ public class ProductService {
                 request.costPrice()
 
         );
+        product.setProductCategory(findCategory(request.productCategoryId()));
 
         Product savedProduct = productRepository.save(product);
 
@@ -70,7 +79,16 @@ public class ProductService {
                 .toList();
     }
 
+    private ProductCategory findCategory(UUID categoryId) {
+        if (categoryId == null) return null;
+
+        return productCategoryRepository.findById(categoryId)
+                .orElseThrow(() -> new RuntimeException("Product Category not found"));
+    }
+
     private ProductResponse toResponse(Product product) {
+        ProductCategory category = product.getProductCategory();
+
         return new ProductResponse(
                 product.getId(),
                 product.getCode(),
@@ -79,7 +97,9 @@ public class ProductService {
                 product.getSalePrice(),
                 product.getCostPrice(),
                 product.getCurrentStock(),
-                product.isActive()
+                product.isActive(),
+                category != null ? category.getId() : null,
+                category != null ? category.getName() : null
         );
     }
 }

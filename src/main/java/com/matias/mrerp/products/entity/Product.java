@@ -4,9 +4,13 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import com.matias.mrerp.product_categories.entity.ProductCategory;
 import java.util.UUID;
 
 
@@ -48,6 +52,10 @@ public class Product {
     @Column(name = "current_stock", nullable = false)
     private int currentStock;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_category_id")
+    private ProductCategory productCategory;
+
     public UUID getId() {
         return id;
     }
@@ -88,6 +96,10 @@ public class Product {
         return currentStock;
     }
 
+    public ProductCategory getProductCategory() {
+        return productCategory;
+    }
+
     public void setCode(String code) {
         this.code = code;
     }
@@ -122,6 +134,10 @@ public class Product {
 
     public void setCurrentStock(int currentStock) {
         this.currentStock = currentStock;
+    }
+
+    public void setProductCategory(ProductCategory productCategory) {
+        this.productCategory = productCategory;
     }
 
     protected Product() {

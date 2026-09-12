@@ -6,6 +6,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public record CreateProductRequest (
 
@@ -26,7 +27,9 @@ public record CreateProductRequest (
 
         @NotNull(message = "the cost price is mandatory")
         @PositiveOrZero(message = "the cost price cannot be negative")
-        BigDecimal costPrice
+        BigDecimal costPrice,
+
+        UUID productCategoryId
 ){
 
 

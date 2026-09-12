@@ -11,6 +11,8 @@ public record ProductResponse(
         BigDecimal salePrice,
         BigDecimal costPrice,
         Integer currentStock,
-        boolean active
+        boolean active,
+        UUID productCategoryId,
+        String productCategoryName
 ) {
 }

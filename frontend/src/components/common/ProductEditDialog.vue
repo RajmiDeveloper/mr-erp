@@ -5,14 +5,18 @@ import Checkbox from 'primevue/checkbox'
 import Dialog from 'primevue/dialog'
 import InputNumber from 'primevue/inputnumber'
 import InputText from 'primevue/inputtext'
+import Select from 'primevue/select'
 import Textarea from 'primevue/textarea'
 import type { ProductResponse, UpdateProductRequest } from '@/types/product'
+import type { ProductCategory } from '@/types/productCategory'
 
 const props = defineProps<{
   visible: boolean
   product: ProductResponse | null
   saving?: boolean
   errorMessage?: string
+  categories?: ProductCategory[]
+  categoriesLoading?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -27,6 +31,7 @@ const form = reactive({
   salePrice: null as number | null,
   currentStock: null as number | null,
   active: true,
+  productCategoryId: null as string | null,
 })
 
 watch(
@@ -40,6 +45,7 @@ watch(
     form.salePrice = product.salePrice
     form.currentStock = product.currentStock
     form.active = product.active
+    form.productCategoryId = product.productCategoryId
   },
   { immediate: true },
 )
@@ -60,6 +66,7 @@ function submit(): void {
     salePrice: form.salePrice,
     currentStock: form.currentStock,
     active: form.active,
+    productCategoryId: form.productCategoryId,
   })
 }
 </script>
@@ -91,6 +98,21 @@ function submit(): void {
           v-model="form.description"
           rows="4"
           maxlength="500"
+        />
+      </div>
+
+      <div class="field">
+        <label for="edit-product-category">Categoría</label>
+        <Select
+          input-id="edit-product-category"
+          v-model="form.productCategoryId"
+          :options="categories ?? []"
+          option-label="name"
+          option-value="id"
+          placeholder="Sin categoría"
+          :loading="categoriesLoading"
+          :disabled="saving"
+          show-clear
         />
       </div>
 

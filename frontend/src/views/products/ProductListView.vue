@@ -2,13 +2,17 @@
 import Button from 'primevue/button'
 import { onMounted, ref } from 'vue'
 import { getProducts, updateProduct } from '@/api/productService'
+import { getProductCategories } from '@/api/productCategoryService'
 import AppDataTable from '@/components/common/AppDataTable.vue'
 import ProductEditDialog from '@/components/common/ProductEditDialog.vue'
 import StatusIndicator from '@/components/common/StatusIndicator.vue'
 import type { AppDataTableColumn } from '@/types/dataTable'
 import type { ProductResponse, UpdateProductRequest } from '@/types/product'
+import type { ProductCategory } from '@/types/productCategory'
 
 const products = ref<ProductResponse[]>([])
+const categories = ref<ProductCategory[]>([])
+const categoriesLoading = ref(false)
 const loading = ref(true)
 const errorMessage = ref('')
 const selectedProduct = ref<ProductResponse | null>(null)
@@ -19,6 +23,7 @@ const editErrorMessage = ref('')
 const columns: AppDataTableColumn<ProductResponse>[] = [
   { field: 'code', header: 'Código' },
   { field: 'name', header: 'Nombre' },
+  { field: 'productCategoryName', header: 'Categoría' },
   {
     field: 'salePrice',
     header: 'Precio de venta',
@@ -85,7 +90,21 @@ async function loadProducts(): Promise<void> {
   }
 }
 
-onMounted(loadProducts)
+async function loadCategories(): Promise<void> {
+  categoriesLoading.value = true
+
+  try {
+    categories.value = await getProductCategories()
+  } catch {
+    // La categoría es opcional; el listado de productos sigue siendo utilizable.
+  } finally {
+    categoriesLoading.value = false
+  }
+}
+
+onMounted(() => {
+  void Promise.all([loadProducts(), loadCategories()])
+})
 </script>
 
 <template>
@@ -134,6 +153,8 @@ onMounted(loadProducts)
       :product="selectedProduct"
       :saving="savingEdit"
       :error-message="editErrorMessage"
+      :categories="categories"
+      :categories-loading="categoriesLoading"
       @close="closeEditDialog"
       @save="saveProduct"
     />

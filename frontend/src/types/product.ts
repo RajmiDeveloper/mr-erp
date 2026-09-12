@@ -4,6 +4,7 @@ export interface CreateProductRequest {
   description: string | null
   costPrice: number
   salePrice: number
+  productCategoryId: string | null
 }
 
 export interface UpdateProductRequest {
@@ -13,6 +14,7 @@ export interface UpdateProductRequest {
   salePrice: number
   currentStock: number
   active: boolean
+  productCategoryId: string | null
 }
 
 export interface ProductResponse {
@@ -24,4 +26,6 @@ export interface ProductResponse {
   salePrice: number
   currentStock: number
   active: boolean
+  productCategoryId: string | null
+  productCategoryName: string | null
 }

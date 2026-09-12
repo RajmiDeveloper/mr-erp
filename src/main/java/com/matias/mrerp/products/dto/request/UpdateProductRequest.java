@@ -6,6 +6,7 @@ import jakarta.validation.constraints.PositiveOrZero;
 import jakarta.validation.constraints.Size;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 public record UpdateProductRequest (
 
@@ -28,6 +29,8 @@ public record UpdateProductRequest (
     Integer currentStock,
 
     @NotNull(message = "The status is mandatory")
-    Boolean active
+    Boolean active,
+
+    UUID productCategoryId
     )
 { }
