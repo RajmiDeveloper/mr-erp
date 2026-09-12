@@ -1,5 +1,5 @@
 export interface ProductCategory {
   id: string
-  name: string | null
-  createdAt: string
+  name: string
+  updatedAt: string
 }

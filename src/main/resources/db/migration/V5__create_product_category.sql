@@ -1,7 +1,8 @@
 CREATE TABLE product_category (
     id UUID PRIMARY KEY,
-    name VARCHAR(50),
-    created_at TIMESTAMP WITH TIME ZONE NOT NULL
+    name VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP WITH TIME ZONE NOT NULL,
+    updated_at TIMESTAMP WITH TIME ZONE NOT NULL
 );
 
 ALTER TABLE products
