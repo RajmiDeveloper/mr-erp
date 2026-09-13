@@ -36,6 +36,15 @@ import { RouterLink } from 'vue-router'
               </template>
             </Card>
           </RouterLink>
+
+          <RouterLink class="customer-card" to="/customers">
+            <Card>
+              <template #title>Clientes</template>
+              <template #content>
+                <p>Administración del catálogo de clientes.</p>
+              </template>
+            </Card>
+          </RouterLink>
         </div>
       </section>
 
@@ -48,6 +57,15 @@ import { RouterLink } from 'vue-router'
               <template #title>Categorías</template>
               <template #content>
                 <p>Consulta de categorías de productos.</p>
+              </template>
+            </Card>
+          </RouterLink>
+
+          <RouterLink class="category-card" to="/customer-categories">
+            <Card>
+              <template #title>Categorías de clientes</template>
+              <template #content>
+                <p>Configuración de categorías para clientes.</p>
               </template>
             </Card>
           </RouterLink>
@@ -106,6 +124,11 @@ h3 {
 }
 
 .category-card {
+  color: inherit;
+  text-decoration: none;
+}
+
+.customer-card {
   color: inherit;
   text-decoration: none;
 }

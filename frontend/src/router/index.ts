@@ -1,6 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
 import AppLayout from '@/components/layout/AppLayout.vue'
+import CustomerCategoryListView from '@/views/customers/CustomerCategoryListView.vue'
+import CustomerFormView from '@/views/customers/CustomerFormView.vue'
+import CustomerListView from '@/views/customers/CustomerListView.vue'
 import DashboardView from '@/views/DashboardView.vue'
 import InventoryMovementView from '@/views/inventory/InventoryMovementView.vue'
 import ProductListView from '@/views/products/ProductListView.vue'
@@ -35,6 +38,21 @@ const router = createRouter({
           path: 'products/new',
           name: 'product-create',
           component: ProductFormView,
+        },
+        {
+          path: 'customers',
+          name: 'customers',
+          component: CustomerListView,
+        },
+        {
+          path: 'customers/new',
+          name: 'customer-create',
+          component: CustomerFormView,
+        },
+        {
+          path: 'customer-categories',
+          name: 'customer-categories',
+          component: CustomerCategoryListView,
         },
         {
           path: 'inventory',

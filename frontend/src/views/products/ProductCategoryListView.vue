@@ -6,7 +6,7 @@ import {
   getProductCategories,
 } from '@/api/productCategoryService'
 import AppDataTable from '@/components/common/AppDataTable.vue'
-import ProductCategoryQuickEntryDialog from '@/components/common/ProductCategoryQuickEntryDialog.vue'
+import CategoryQuickEntryDialog from '@/components/common/CategoryQuickEntryDialog.vue'
 import type { AppDataTableColumn } from '@/types/dataTable'
 import type { ProductCategory } from '@/types/productCategory'
 
@@ -92,8 +92,9 @@ onMounted(loadProductCategories)
       :rows-per-page-options="[5, 10, 20, 50]"
     />
 
-    <ProductCategoryQuickEntryDialog
+    <CategoryQuickEntryDialog
       :visible="dialogVisible"
+      category-label="categoría"
       :saving="saving"
       :error-message="saveErrorMessage"
       @close="closeCreateDialog"

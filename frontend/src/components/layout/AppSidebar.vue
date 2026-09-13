@@ -32,6 +32,11 @@ const isCollapsed = ref(false)
         <span>Productos</span>
       </RouterLink>
 
+      <RouterLink to="/customers">
+        <i class="pi pi-users"></i>
+        <span>Clientes</span>
+      </RouterLink>
+
       <RouterLink to="/inventory">
         <i class="pi pi-warehouse"></i>
         <span>Inventario</span>
